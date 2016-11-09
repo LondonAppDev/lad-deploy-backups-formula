@@ -1,0 +1,42 @@
+
+backup_server:
+    user: backuperer
+    user_pass: '<<insert the user password hash>>'
+    user_id_rsa_pub: <<insert public key here>>
+    user_id_rsa: |
+        <<insert private key here>>
+
+
+backup_client:
+    user: backuperer
+    user_pass: '<<insert backup user password hash>>'
+    user_id_rsa_pub: <<insert public key here>>
+    user_id_rsa: |
+        <<insert private key here>>
+
+    backup_server_host: <<insert the hostname for your backup server>>
+    backup_server_remote_path: /home/backuperer/backups/server_name
+    backup_server_user: backuperer
+    db_backups:
+        db_connection_user: "<<insert your database connections users>>"
+        db_connection_user_pass: "<<insert your databases connection password>>"
+        backup_user: backuperer
+        backup_user_pass: <<insert your backup users password>>
+        backup_user_host: <<insert the database hostname>>
+        databases:
+            # List as many databases as you like with the cron executing times.
+            db1:
+                hour: "*/12"
+            db2:
+                hour: 0
+                minute: 0
+            db3:
+                hour: 1
+                minute: 0
+
+    file_backups:
+        # List as many file locations as you like with the path and cron times.
+        wordpress_uploads:
+            path: /usr/local/sites/my_wordpress_site/wordpress/wp-content/uploads
+            cron:
+                hour: "*/12"

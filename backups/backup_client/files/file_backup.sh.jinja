@@ -1,0 +1,15 @@
+#!/bash
+NOW="$(date +'%Y-%m-%d_%H-%M-%S')"
+MAX_BACKUP_DAYS=30
+
+# Make tar.gz of files
+BACKUP_DIR=~/backups/files/{{ file_name }}
+mkdir -p "$BACKUP_DIR"
+
+if [ -d {{ path_to_backup }} ]; then
+    cd {{ path_to_backup }}
+    tar -zcvf "$BACKUP_DIR"/"$NOW"_{{ file_name }}.tar.gz .
+    find $BACKUP_DIR/* -mtime +$MAX_BACKUP_DAYS -exec rm {} \;
+    ssh {{ backup_server_user }}@{{ backup_server_host }} "mkdir -p {{ backup_server_remote_path }}/files/{{ file_name }}"
+    rsync -r -v --delete $BACKUP_DIR/ {{ backup_server_user }}@{{ backup_server_host }}:{{ backup_server_remote_path }}/files/{{ file_name }}/
+fi
