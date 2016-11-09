@@ -23,3 +23,12 @@
         - group: {{ pillar['backup_client']['user'] }}
         - makedirs: True
         - mode: 700
+
+/home/{{ pillar['backup_client']['user'] }}/.ssh/config:
+    file.managed:
+        - template: jinja
+        - source: salt://backups/backup_client/files/ssh_config.jinja
+        - user: {{ pillar['backup_client']['user'] }}
+        - group: {{ pillar['backup_client']['user'] }}
+        - makedirs: True
+        - mode: 700
